@@ -1,7 +1,6 @@
 package stepdefinitions;
 
 
-import lombok.AllArgsConstructor;
 import org.testng.Assert;
 import pageobjects.BasePage;
 import pageobjects.home.HomePage;
@@ -10,7 +9,7 @@ import pageobjects.inventory.*;
 import pageobjects.manufacturing.CreateOrderPage;
 import pageobjects.manufacturing.ListOrdersPage;
 
-@AllArgsConstructor
+
 public class CreateProductAndManufacturingOrderSteps extends BasePage {
     private LoginPage loginPage;
     private HomePage homePage;
@@ -22,6 +21,17 @@ public class CreateProductAndManufacturingOrderSteps extends BasePage {
     private CreateOrderPage createOrderPage;
     private InventoryOrderListPage inventoryOrderListPage;
 
+    public CreateProductAndManufacturingOrderSteps(LoginPage loginPage, HomePage homePage, CreateProductPage createProductPage, InventoryOverviewPage inventoryOverviewPage, ListProductsPage listProductsPage, UpdateProductQuantityPage updateProductQuantityPage, ListOrdersPage listOrdersPage, CreateOrderPage createOrderPage, InventoryOrderListPage inventoryOrderListPage) {
+        this.loginPage = loginPage;
+        this.homePage = homePage;
+        this.createProductPage = createProductPage;
+        this.inventoryOverviewPage = inventoryOverviewPage;
+        this.listProductsPage = listProductsPage;
+        this.updateProductQuantityPage = updateProductQuantityPage;
+        this.listOrdersPage = listOrdersPage;
+        this.createOrderPage = createOrderPage;
+        this.inventoryOrderListPage = inventoryOrderListPage;
+    }
 
     public void iLoginToHomePage(String email, String password) {
         loginPage.navigateToLoginPage();
@@ -79,8 +89,6 @@ public class CreateProductAndManufacturingOrderSteps extends BasePage {
         inventoryOverviewPage.clickManufacturingLabel();
         String referenceId = createOrderPage.getManufacturingReferenceLabel();
         InventoryOrderListPage.Order inventoryOrder = inventoryOrderListPage.getOrderListDataByReference(referenceId);
-        System.out.println(inventoryOrder.getProductName());
-        System.out.println(inventoryOrder.getState());
 
         Assert.assertTrue(inventoryOrder.getProductName().equalsIgnoreCase(expectedProductName) && inventoryOrder.getState().equalsIgnoreCase(expectedState));
     }

@@ -50,7 +50,6 @@ public class BaseTest {
             try {
                 screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.FILE);
                 FileUtils.copyFile(screenshot, destFile);
-                System.out.println("Screenshot captured: " + destFile.getAbsolutePath());
             } catch (IOException e) {
                 System.out.println("Failed to capture screenshot: " + e.getMessage());
             }
