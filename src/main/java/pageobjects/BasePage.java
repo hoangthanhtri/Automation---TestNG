@@ -16,7 +16,7 @@ import static utils.GlobalVars.BASE_URL;
 import static utils.GlobalVars.DEFAULT_EXPLICIT_TIMEOUTS;
 
 public class BasePage {
-    public WebDriverWait wait;
+    public static WebDriverWait wait;
 
     @FindBy(xpath = "//a[@title='Home menu']")
     WebElement backToHomePageButton;
@@ -26,19 +26,19 @@ public class BasePage {
         wait = new WebDriverWait(getDriver(), Duration.ofSeconds(DEFAULT_EXPLICIT_TIMEOUTS));
     }
 
-    public WebDriver getDriver() {
+    public static WebDriver getDriver() {
         return DriverFactory.getWebDriver();
     }
 
-    protected void navigateToPath(String path) {
+    protected static void navigateToPath(String path) {
         getDriver().get(BASE_URL + path);
     }
 
-    protected void navigateToUrl(String url) {
+    protected static void navigateToUrl(String url) {
         getDriver().get(url);
     }
 
-    protected WebElement waitForVisibilityOf(WebElement element) {
+    protected static WebElement waitForVisibilityOf(WebElement element) {
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
@@ -47,16 +47,16 @@ public class BasePage {
     }
 
 
-    protected WebElement waitForElementToBeClickable(WebElement element) {
+    protected static WebElement waitForElementToBeClickable(WebElement element) {
         return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    protected void waitAndClick(WebElement element) {
+    protected static void waitAndClick(WebElement element) {
         WebElement webElement = waitForElementToBeClickable(element);
         webElement.click();
     }
 
-    protected void waitAndSendKeys(WebElement element, String keys) {
+    protected static void waitAndSendKeys(WebElement element, String keys) {
         WebElement webElement = waitForVisibilityOf(element);
         webElement.clear();
         webElement.sendKeys(keys);

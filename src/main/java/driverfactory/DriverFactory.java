@@ -9,30 +9,37 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static utils.GlobalVars.DEFAULT_IMPLICIT_TIMEOUTS;
 
 public class DriverFactory {
 
+
+    private static final ThreadLocal<WebDriver> webDriverThreadLocal = new ThreadLocal<>();
     //Declare a webDriver
-    private static WebDriver webDriver = null;
 
     // This method gets the WebDriver instance for the current thread, creating it if necessary
     public static WebDriver getWebDriver() {
 
-        if (webDriver == null) {
-            webDriver = createDriver();
+        // If the ThreadLocal value is null, create a new WebDriver instance and set the ThreadLocal value
+        if (webDriverThreadLocal.get() == null) {
+            webDriverThreadLocal.set(createDriver());
         }
-        return webDriver;
-
+        // Return the ThreadLocal value (i.e. the WebDriver instance for the current thread)
+        return webDriverThreadLocal.get();
     }
 
     //This method get run configuration
     private static WebDriver createDriver() {
         WebDriver driver = null;
-
+        //Turn off Selenium logs
+        Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
         // Check the browser type and instantiate the appropriate WebDriver
         switch (getBrowserType()) {
             case "chrome" -> {
@@ -41,16 +48,16 @@ public class DriverFactory {
                         System.getProperty("user.dir") + "/src/main/resources/drivers/chromedriver.exe");
 
                 ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--remote-allow-origins=*");
                 chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+                chromeOptions.addArguments("--remote-allow-origins=*");
                 if (isHeadless())
                     chromeOptions.addArguments("--headless");
                 driver = new ChromeDriver(chromeOptions);
+                driver.manage().window().maximize();
             }
             case "firefox" -> {
                 System.setProperty("webdriver.gecko.driver",
                         System.getProperty("user.dir") + "/src/main/resources/drivers/geckodriver.exe");
-
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
                 if (isHeadless())
@@ -58,11 +65,42 @@ public class DriverFactory {
 
 
                 driver = new FirefoxDriver();
+                driver.manage().window().maximize();
             }
+            case "iphonexr" -> {
+                System.setProperty("webdriver.chrome.driver",
+                        System.getProperty("user.dir") + "/src/main/resources/drivers/chromedriver.exe");
+
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+
+                Map<String, String> mobileEmulation = new HashMap<>();
+                mobileEmulation.put("deviceName", "iPhone XR");
+                chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+                chromeOptions.addArguments("--remote-allow-origins=*");
+                if (isHeadless())
+                    chromeOptions.addArguments("--headless");
+                driver = new ChromeDriver(chromeOptions);
+            }
+            case "samsung" -> {
+                System.setProperty("webdriver.chrome.driver",
+                        System.getProperty("user.dir") + "/src/main/resources/drivers/chromedriver.exe");
+
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+                Map<String, String> mobileEmulation = new HashMap<>();
+                mobileEmulation.put("deviceName", "Samsung Galaxy S20 Ultra");
+                chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+                chromeOptions.addArguments("--remote-allow-origins=*");
+                if (isHeadless())
+                    chromeOptions.addArguments("--headless");
+                driver = new ChromeDriver(chromeOptions);
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + getBrowserType());
         }
 
         driver.manage().timeouts().implicitlyWait(DEFAULT_IMPLICIT_TIMEOUTS, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
+
         // Return the created WebDriver instance
         return driver;
     }
@@ -87,7 +125,7 @@ public class DriverFactory {
                 browserType = browserTypeRemoteValue.toLowerCase().trim();
             }
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
 
         return browserType;
@@ -107,7 +145,7 @@ public class DriverFactory {
                 isHeadless = Boolean.parseBoolean(isHeadlessRemoteValue.toLowerCase().trim());
             }
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
 
         return isHeadless;
@@ -115,10 +153,9 @@ public class DriverFactory {
 
 
     public static void cleanUpDriver() {
-
-        //webDriver.close();
-        webDriver.quit();
-
-
+        if (webDriverThreadLocal.get() != null) {
+            webDriverThreadLocal.get().quit();
+            webDriverThreadLocal.remove();
+        }
     }
 }

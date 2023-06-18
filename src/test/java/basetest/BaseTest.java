@@ -1,96 +1,85 @@
 package basetest;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import org.slf4j.Logger;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.*;
+import utils.Report;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static driverfactory.DriverFactory.cleanUpDriver;
 import static driverfactory.DriverFactory.getWebDriver;
+import static utils.DataGenerate.getRunDatetime;
 
 public class BaseTest {
-    private int roundId;
+    private String roundId;
+    private ExtentTest testFeatures;
+
+    @BeforeSuite
+    public void setUpSuite() {
+        Logger logger = org.slf4j.LoggerFactory.getLogger(BaseTest.class);
+
+        Report.initReport();
+
+    }
 
     @BeforeClass
     public void setUpClass() {
         getWebDriver();
+        testFeatures = Report.addTestFeaturesReport(getClass().getName());
     }
 
     @BeforeMethod
-    public void setUpMethod() {
-
-        roundId = setRoundId();
+    public void setUpMethod(ITestResult method) {
+        setRoundId(getRunDatetime());
     }
 
     @AfterMethod
     public void captureExceptionImage(ITestResult result) {
-        if (result.getStatus() != ITestResult.SUCCESS) {
-            File screenshot;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String date = dateFormat.format(new Date());
-
-            String reportDirectory = new File(System.getProperty("user.dir")) + "/target/surefire-reports/" + date;
-            File directory = new File(reportDirectory);
-            directory.mkdirs();
-
-            File destFile = new File(directory, result.getName() + "_" + RandomStringUtils.randomNumeric(3) + ".png");
-            try {
-                screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.FILE);
-                FileUtils.copyFile(screenshot, destFile);
-            } catch (IOException e) {
-                System.out.println("Failed to capture screenshot: " + e.getMessage());
+        String methodName;
+        Throwable throwable = result.getThrowable();
+        Object[] testData = result.getParameters();
+        Status status;
+        switch (result.getStatus()) {
+            case ITestResult.SUCCESS -> {
+                status = Status.PASS;
             }
+            case ITestResult.FAILURE -> {
+                status = Status.FAIL;
+            }
+            case ITestResult.SKIP -> {
+                status = Status.SKIP;
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + result.getStatus());
         }
+        if (testData != null && testData.length > 0) {
+            methodName = result.getName() + Arrays.stream(testData).map(Object::toString).collect(Collectors.toList());
+        } else {
+            methodName = result.getName();
+        }
+        Report.addMethodReport(testFeatures, status, methodName, throwable);
 
     }
 
     @AfterClass
-    public void tearDown() {
+    public void tearDownClass() {
         cleanUpDriver();
+
     }
 
-    private int setRoundId() {
-        int id = 0;
-        try {
-            String keyUpdate = "roundId";
-            Properties properties = new Properties();
-            FileInputStream file = new FileInputStream(
-                    System.getProperty("user.dir") + "/config.properties");
-            properties.load(file);
-            file.close();
-            id = Integer.parseInt(properties.getProperty(keyUpdate));
-            for (String key : properties.stringPropertyNames()
-            ) {
-                if (key.equalsIgnoreCase(keyUpdate)) {
-                    properties.setProperty(key, String.valueOf(id + 1));
-                    break;
-                }
-            }
-            FileOutputStream fileOutputStream = new FileOutputStream(
-                    System.getProperty("user.dir") + "/config.properties");
-            properties.store(fileOutputStream, null);
-            fileOutputStream.close();
-
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        return id;
+    @AfterSuite
+    public void tearDownSuite() {
+        Report.closeAndSave();
     }
 
-    protected int getRoundId() {
+    protected String getRoundId() {
         return roundId;
+    }
+
+    private synchronized void setRoundId(String roundId) {
+        this.roundId = roundId;
     }
 }

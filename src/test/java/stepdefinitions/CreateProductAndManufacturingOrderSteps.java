@@ -1,6 +1,5 @@
 package stepdefinitions;
 
-
 import org.testng.Assert;
 import pageobjects.BasePage;
 import pageobjects.home.HomePage;
@@ -11,33 +10,35 @@ import pageobjects.manufacturing.ListOrdersPage;
 
 
 public class CreateProductAndManufacturingOrderSteps extends BasePage {
-    private LoginPage loginPage;
-    private HomePage homePage;
-    private CreateProductPage createProductPage;
-    private InventoryOverviewPage inventoryOverviewPage;
-    private ListProductsPage listProductsPage;
-    private UpdateProductQuantityPage updateProductQuantityPage;
-    private ListOrdersPage listOrdersPage;
-    private CreateOrderPage createOrderPage;
-    private InventoryOrderListPage inventoryOrderListPage;
 
-    public CreateProductAndManufacturingOrderSteps(LoginPage loginPage, HomePage homePage, CreateProductPage createProductPage, InventoryOverviewPage inventoryOverviewPage, ListProductsPage listProductsPage, UpdateProductQuantityPage updateProductQuantityPage, ListOrdersPage listOrdersPage, CreateOrderPage createOrderPage, InventoryOrderListPage inventoryOrderListPage) {
-        this.loginPage = loginPage;
-        this.homePage = homePage;
-        this.createProductPage = createProductPage;
-        this.inventoryOverviewPage = inventoryOverviewPage;
-        this.listProductsPage = listProductsPage;
-        this.updateProductQuantityPage = updateProductQuantityPage;
-        this.listOrdersPage = listOrdersPage;
-        this.createOrderPage = createOrderPage;
-        this.inventoryOrderListPage = inventoryOrderListPage;
+    private final LoginPage loginPage;
+    private final HomePage homePage;
+    private final CreateProductPage createProductPage;
+    private final InventoryOverviewPage inventoryOverviewPage;
+    private final ListProductsPage listProductsPage;
+    private final UpdateProductQuantityPage updateProductQuantityPage;
+    private final ListOrdersPage listOrdersPage;
+    private final CreateOrderPage createOrderPage;
+    private final InventoryOrderListPage inventoryOrderListPage;
+
+    public CreateProductAndManufacturingOrderSteps() {
+        this.loginPage = new LoginPage();
+        this.homePage = new HomePage();
+        this.createProductPage = new CreateProductPage();
+        this.inventoryOverviewPage = new InventoryOverviewPage();
+        this.listProductsPage = new ListProductsPage();
+        this.listOrdersPage = new ListOrdersPage();
+        this.createOrderPage = new CreateOrderPage();
+        this.inventoryOrderListPage = new InventoryOrderListPage();
+        this.updateProductQuantityPage = new UpdateProductQuantityPage();
     }
 
     public void iLoginToHomePage(String email, String password) {
-        loginPage.navigateToLoginPage();
-        loginPage.inputEmailTextbox(email);
-        loginPage.inputPasswordTextbox(password);
-        loginPage.clickLoginButton();
+
+        LoginPage.navigateToLoginPage();
+        LoginPage.inputEmailTextbox(email);
+        LoginPage.inputPasswordTextbox(password);
+        LoginPage.clickLoginButton();
     }
 
     public void iNavigateToCreateProductPage() {

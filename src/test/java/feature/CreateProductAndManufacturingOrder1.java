@@ -2,30 +2,25 @@ package feature;
 
 import basetest.BaseTest;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import stepdefinitions.CreateProductAndManufacturingOrderSteps;
 
-public class CreateProductAndManufacturingOrder extends BaseTest {
+public class CreateProductAndManufacturingOrder1 extends BaseTest {
     private CreateProductAndManufacturingOrderSteps createProductAndManufacturingOrderSteps;
-    // Have to
 
+    // Have to
+    // Implement Log4j
+    // Implement DB query and compare data
+    // Add Plugin for Jenkins
     // Add emualation, size of browser
     // Data provide from Enum & CSV file
-    @DataProvider(name = "testData")
-    public Object[][] testData() {
-        return new Object[][]{
-                {"John"}
-        };
-    }
-
     @BeforeClass
     public void setUp() {
         createProductAndManufacturingOrderSteps = new CreateProductAndManufacturingOrderSteps();
     }
 
-    @Test(dataProvider = "testData", threadPoolSize = 1, invocationCount = 1, timeOut = 10000)
-    public void LoginAccountSucceed(String name) {
+    @Test
+    public void LoginAccountSucceed2() {
 //        createProductAndManufacturingOrderSteps.iLoginToHomePage("user@codechallenge.a", "123456");
 //        createProductAndManufacturingOrderSteps.iNavigateToCreateProductPage();
 //        createProductAndManufacturingOrderSteps.iCreateProduct("[TESTDATA]ProductName" + getRoundId());
@@ -40,17 +35,16 @@ public class CreateProductAndManufacturingOrder extends BaseTest {
     }
 
     @Test
-    public void LoginAccountSucceed1() {
-//        createProductAndManufacturingOrderSteps.iLoginToHomePage("user@codechallenge.a", "123456");
-//        createProductAndManufacturingOrderSteps.iNavigateToCreateProductPage();
-//        createProductAndManufacturingOrderSteps.iCreateProduct("[TESTDATA]ProductName" + getRoundId());
-//        createProductAndManufacturingOrderSteps.iUpdateProductQuantity("10");
-//        createProductAndManufacturingOrderSteps.iNavigateToCreateManufacturingOrderPage();
-//        createProductAndManufacturingOrderSteps.iSelectProductNameOfOrder("[TESTDATA]ProductName" + getRoundId());
-//        createProductAndManufacturingOrderSteps.iAddConsumeComponentQuantity("productname", "100");
-//        createProductAndManufacturingOrderSteps.iChangeOrderStatusToConfirm();
-//        createProductAndManufacturingOrderSteps.iChangeOrderStatusToDoneAndSave();
-//        createProductAndManufacturingOrderSteps.iShouldBePresentedCreatedOrderOnManufacturingListOfInventory("[TESTDATA]ProductName" + getRoundId(), "Done");
+    public void LoginAccountSucceed3() {
+        createProductAndManufacturingOrderSteps.iNavigateToCreateProductPage();
+        createProductAndManufacturingOrderSteps.iCreateProduct("[TESTDATA]ProductName" + getRoundId());
+        createProductAndManufacturingOrderSteps.iUpdateProductQuantity("10");
+        createProductAndManufacturingOrderSteps.iNavigateToCreateManufacturingOrderPage();
+        createProductAndManufacturingOrderSteps.iSelectProductNameOfOrder("[TESTDATA]ProductName" + getRoundId());
+        createProductAndManufacturingOrderSteps.iAddConsumeComponentQuantity("productname", "100");
+        createProductAndManufacturingOrderSteps.iChangeOrderStatusToConfirm();
+        createProductAndManufacturingOrderSteps.iChangeOrderStatusToDoneAndSave();
+        createProductAndManufacturingOrderSteps.iShouldBePresentedCreatedOrderOnManufacturingListOfInventory("[TESTDATA]ProductName" + getRoundId(), "Done");
 
     }
 

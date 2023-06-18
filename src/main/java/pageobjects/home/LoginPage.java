@@ -8,29 +8,29 @@ public class LoginPage extends BasePage {
 
     private static final String LOGIN_PATH = "/web/login";
     @FindBy(id = "login")
-    WebElement emailTextbox;
+    static WebElement emailTextbox;
     @FindBy(id = "password")
-    WebElement passwordTextbox;
+    static WebElement passwordTextbox;
     @FindBy(xpath = "//button[contains(text(),'Log in')]")
-    WebElement loginButton;
+    static WebElement loginButton;
 
     public LoginPage() {
         super();
     }
 
-    public void navigateToLoginPage() {
+    public static void navigateToLoginPage() {
         navigateToPath(LOGIN_PATH);
     }
 
-    public void inputEmailTextbox(String inputValue) {
+    public static void inputEmailTextbox(String inputValue) {
         waitAndSendKeys(emailTextbox, inputValue);
     }
 
-    public void inputPasswordTextbox(String inputValue) {
+    public static void inputPasswordTextbox(String inputValue) {
         waitAndSendKeys(passwordTextbox, inputValue);
     }
 
-    public void clickLoginButton() {
+    public static void clickLoginButton() {
         waitAndClick(loginButton);
     }
 

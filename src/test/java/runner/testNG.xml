@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
-<suite name="Odoo" thread-count="1">
-    <test name="CreateProductAndManufacturingOrder">
+<suite name="Odoo" parallel="classes" thread-count="5">
+    <test name="test">
         <classes>
             <class name="feature.CreateProductAndManufacturingOrder"/>
+            <class name="feature.CreateProductAndManufacturingOrder1"/>
         </classes>
     </test>
 </suite>
