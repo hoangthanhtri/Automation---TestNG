@@ -3,7 +3,6 @@ package pageobjects.inventory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.BasePage;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public class InventoryOrderListPage extends BasePage {
 
 
     public Order getOrderListDataByReference(String referenceId) {
-        List<WebElement> orderListElements = wait.until(ExpectedConditions.visibilityOfAllElements(orderList));
+        List<WebElement> orderListElements = waitHandler.waitForVisibilityOfAllElements(orderList);
 
         for (WebElement order : orderListElements) {
             WebElement referenceElement = order.findElement(By.xpath("(./td)[3]"));
@@ -49,14 +48,14 @@ public class InventoryOrderListPage extends BasePage {
     }
 
     public class Order {
-        private String reference;
-        private String scheduleDate;
-        private String productName;
-        private String source;
-        private String componentStatus;
-        private String quantity;
-        private String UoM;
-        private String state;
+        private final String reference;
+        private final String scheduleDate;
+        private final String productName;
+        private final String source;
+        private final String componentStatus;
+        private final String quantity;
+        private final String UoM;
+        private final String state;
 
 
         public Order(String reference, String scheduleDate, String productName, String source, String componentStatus, String quantity, String uoM, String state) {

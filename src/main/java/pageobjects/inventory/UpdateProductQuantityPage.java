@@ -20,7 +20,7 @@ public class UpdateProductQuantityPage extends BasePage {
     }
 
     public void clickCreateButton() {
-        waitForVisibilityOf(updateQuantityBreadCrumb);
+        waitHandler.waitForVisibilityOf(updateQuantityBreadCrumb);
         waitAndClick(createButton);
     }
 

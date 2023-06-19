@@ -74,6 +74,6 @@ public class CreateOrderPage extends BasePage {
     }
 
     private void waitUntilConfirmedOrder() {
-        wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(manufacturingReferenceLabel, "New")));
+        waitHandler.wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(manufacturingReferenceLabel, "New")));
     }
 }

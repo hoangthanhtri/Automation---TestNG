@@ -3,7 +3,6 @@ package pageobjects.inventory;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.BasePage;
 
 public class CreateProductPage extends BasePage {
@@ -43,7 +42,7 @@ public class CreateProductPage extends BasePage {
     }
 
     private void waitUntilProductCreated() {
-        wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(createdProductName, "New")));
+        waitHandler.waitForTextNotToBePresentInElement(createdProductName, "New");
     }
 
 }

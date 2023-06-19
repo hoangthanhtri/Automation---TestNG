@@ -39,9 +39,12 @@ public class DatabaseQueryExecutor {
     }
 
     public void close() {
+
         try {
-            statement.close();
-            connection.close();
+            if (statement != null && !statement.isClosed())
+                statement.close();
+            if (connection != null && !connection.isClosed())
+                connection.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

@@ -8,10 +8,6 @@ import stepdefinitions.CreateProductAndManufacturingOrderSteps;
 
 public class CreateProductAndManufacturingOrder extends BaseTest {
     private CreateProductAndManufacturingOrderSteps createProductAndManufacturingOrderSteps;
-    // Have to
-
-    // Add emualation, size of browser
-    // Data provide from Enum & CSV file
     @DataProvider(name = "testData")
     public Object[][] testData() {
         return new Object[][]{

@@ -100,6 +100,7 @@ public class DriverFactory {
         }
 
         driver.manage().timeouts().implicitlyWait(DEFAULT_IMPLICIT_TIMEOUTS, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 
         // Return the created WebDriver instance
         return driver;
