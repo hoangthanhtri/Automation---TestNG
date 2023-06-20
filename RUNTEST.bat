@@ -1,4 +1,4 @@
 @echo
-call mvn clean test -DthreadCount="2" surefire-report:report
+call mvn clean test -Dgroups="smoke,regression" -DthreadCount="2" -DbrowserType="firefox" -DisHeadlass="false"
 echo After build
-start target\surefire-reports\emailable-report.html
+start report.html

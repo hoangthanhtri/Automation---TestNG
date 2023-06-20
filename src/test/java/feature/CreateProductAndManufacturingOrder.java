@@ -35,7 +35,7 @@ public class CreateProductAndManufacturingOrder extends BaseTest {
 
     }
 
-    @Test
+    @Test(groups = "smoke", threadPoolSize = 1, invocationCount = 1, timeOut = 10000)
     public void LoginAccountSucceed1() {
 //        createProductAndManufacturingOrderSteps.iLoginToHomePage("user@codechallenge.a", "123456");
 //        createProductAndManufacturingOrderSteps.iNavigateToCreateProductPage();

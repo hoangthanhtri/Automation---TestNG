@@ -2,7 +2,6 @@ package basetest;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import org.slf4j.Logger;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import utils.Report;
@@ -18,10 +17,8 @@ public class BaseTest {
     private String roundId;
     private ExtentTest testFeatures;
 
-    @BeforeSuite
+    @BeforeSuite(alwaysRun = true)
     public void setUpSuite() {
-        Logger logger = org.slf4j.LoggerFactory.getLogger(BaseTest.class);
-
         Report.initReport();
 
     }
@@ -67,16 +64,11 @@ public class BaseTest {
     @AfterClass
     public void tearDownClass() {
         cleanUpDriver();
-
     }
 
-    @AfterSuite
+    @AfterSuite(alwaysRun = true)
     public void tearDownSuite() {
         Report.closeAndSave();
-    }
-
-    protected String getRoundId() {
-        return roundId;
     }
 
     private synchronized void setRoundId(String roundId) {

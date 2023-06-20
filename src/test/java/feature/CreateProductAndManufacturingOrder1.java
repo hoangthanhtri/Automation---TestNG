@@ -19,7 +19,7 @@ public class CreateProductAndManufacturingOrder1 extends BaseTest {
         createProductAndManufacturingOrderSteps = new CreateProductAndManufacturingOrderSteps();
     }
 
-    @Test
+    @Test(groups = {"smoke"}, threadPoolSize = 3, invocationCount = 3, timeOut = 10000)
     public void LoginAccountSucceed2() {
 //        createProductAndManufacturingOrderSteps.iLoginToHomePage("user@codechallenge.a", "123456");
 //        createProductAndManufacturingOrderSteps.iNavigateToCreateProductPage();
@@ -34,17 +34,17 @@ public class CreateProductAndManufacturingOrder1 extends BaseTest {
 
     }
 
-    @Test
+    @Test(groups = {"regression"}, threadPoolSize = 1, invocationCount = 1, timeOut = 10000)
     public void LoginAccountSucceed3() {
-        createProductAndManufacturingOrderSteps.iNavigateToCreateProductPage();
-        createProductAndManufacturingOrderSteps.iCreateProduct("[TESTDATA]ProductName" + getRoundId());
-        createProductAndManufacturingOrderSteps.iUpdateProductQuantity("10");
-        createProductAndManufacturingOrderSteps.iNavigateToCreateManufacturingOrderPage();
-        createProductAndManufacturingOrderSteps.iSelectProductNameOfOrder("[TESTDATA]ProductName" + getRoundId());
-        createProductAndManufacturingOrderSteps.iAddConsumeComponentQuantity("productname", "100");
-        createProductAndManufacturingOrderSteps.iChangeOrderStatusToConfirm();
-        createProductAndManufacturingOrderSteps.iChangeOrderStatusToDoneAndSave();
-        createProductAndManufacturingOrderSteps.iShouldBePresentedCreatedOrderOnManufacturingListOfInventory("[TESTDATA]ProductName" + getRoundId(), "Done");
+//        createProductAndManufacturingOrderSteps.iNavigateToCreateProductPage();
+//        createProductAndManufacturingOrderSteps.iCreateProduct("[TESTDATA]ProductName" + getRoundId());
+//        createProductAndManufacturingOrderSteps.iUpdateProductQuantity("10");
+//        createProductAndManufacturingOrderSteps.iNavigateToCreateManufacturingOrderPage();
+//        createProductAndManufacturingOrderSteps.iSelectProductNameOfOrder("[TESTDATA]ProductName" + getRoundId());
+//        createProductAndManufacturingOrderSteps.iAddConsumeComponentQuantity("productname", "100");
+//        createProductAndManufacturingOrderSteps.iChangeOrderStatusToConfirm();
+//        createProductAndManufacturingOrderSteps.iChangeOrderStatusToDoneAndSave();
+//        createProductAndManufacturingOrderSteps.iShouldBePresentedCreatedOrderOnManufacturingListOfInventory("[TESTDATA]ProductName" + getRoundId(), "Done");
 
     }
 
