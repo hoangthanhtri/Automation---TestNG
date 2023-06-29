@@ -21,18 +21,18 @@ import static utils.GlobalVars.DEFAULT_IMPLICIT_TIMEOUTS;
 public class DriverFactory {
 
 
-    private static final ThreadLocal<WebDriver> webDriverThreadLocal = new ThreadLocal<>();
+    private static WebDriver webDriver = null;
     //Declare a webDriver
 
     // This method gets the WebDriver instance for the current thread, creating it if necessary
     public static WebDriver getWebDriver() {
 
         // If the ThreadLocal value is null, create a new WebDriver instance and set the ThreadLocal value
-        if (webDriverThreadLocal.get() == null) {
-            webDriverThreadLocal.set(createDriver());
+        if (webDriver == null) {
+            webDriver = createDriver();
         }
         // Return the ThreadLocal value (i.e. the WebDriver instance for the current thread)
-        return webDriverThreadLocal.get();
+        return webDriver;
     }
 
     //This method get run configuration
@@ -154,9 +154,8 @@ public class DriverFactory {
 
 
     public static void cleanUpDriver() {
-        if (webDriverThreadLocal.get() != null) {
-            webDriverThreadLocal.get().quit();
-            webDriverThreadLocal.remove();
+        if (webDriver != null) {
+            webDriver.quit();
         }
     }
 }

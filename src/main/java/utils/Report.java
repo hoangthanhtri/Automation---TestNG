@@ -69,7 +69,7 @@ public class Report {
         File directory = new File(screenshotDirectory);
         directory.mkdirs();
 
-        File destFile = new File(directory, time + "_" + methodName + ".png");
+        File destFile = new File(directory, time + "Lodash" + methodName + ".png");
         try {
             screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(screenshot, destFile);
@@ -90,7 +90,7 @@ public class Report {
         File directory = new File(screenshotDirectory);
         directory.mkdirs();
 
-        File destFile = new File(directory, time + "_" + methodName + ".png");
+        File destFile = new File(directory, time + "Lodash" + methodName + ".png");
         screenshotBytes = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
         try {
             File screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.FILE);
